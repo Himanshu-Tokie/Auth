@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ButtonTemplate from '../../customButtons/button';
 import { SignUpData } from '../../utils/enums';
 import Process from '../Process/process';
+import { Data } from '../../utils/context';
 
 export default function UserSignIn({navigation}) {
     const [userName,setUserName] = useState('adsf');
     const [password,setPassword] = useState('asdf');
+    const [data, setData] = useContext(Data);
+    console.log(data);
+    
   return (
     <>
       <View style={styles.container}>
@@ -22,7 +26,7 @@ export default function UserSignIn({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('Si',{UserName:userName,Password:password})}>
+            onPress={() => navigation.navigate('SignUp',{UserName:userName,Password:password})}>
             <Text>SignUp</Text>
           </TouchableOpacity>
         </View>

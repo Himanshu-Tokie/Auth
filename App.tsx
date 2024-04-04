@@ -10,17 +10,15 @@ import SignUpPage from "./src/Screen/SignUp/signUp";
 // const data = useRef({})
 const Stack = createNativeStackNavigator();
 export default function App(){
-
+  const [data,setData] = useState({})
   return (
     <NavigationContainer>
-      <Data.Provider value={{'Himanshu@gmail.com': {
-    password: 'Anil@123',
-  }}}>
+      <Data.Provider value={[data,setData]}>
       <Stack.Navigator initialRouteName="SignIn">
         <Stack.Screen name="SignIn" component={UserSignIn}/>
         <Stack.Screen name="Process" component={Process}/>
         <Stack.Screen name="Home" component={Home}/>
-        <Stack.Screen name="SignUp" Component={SignUpPage}/>
+        <Stack.Screen name="SignUp" component={SignUpPage}/>
       </Stack.Navigator>
       </Data.Provider>
     </NavigationContainer>

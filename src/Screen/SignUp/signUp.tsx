@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -9,13 +9,14 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import SignUpTemplate from '../../Components/CustomButton/SignUpTemplate';
-import UserImage from '../../Components/CustomButton/Image';
-import { SignUpData } from '../../utils/data';
+import SignUpTemplate from '../../customButtons/button';
+import UserImage from '../../customButtons/image';
+import { SignUpData } from '../../utils/enums';
+import { Data } from '../../utils/context';
 export default SignUpPage;
 
 
-function SignUpPage() {
+function SignUpPage({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setlastName] = useState('');
   const [email, setemail] = useState('');
@@ -23,57 +24,67 @@ function SignUpPage() {
   const [dateOfBirth, setdateOfBirth] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+  const [data, setData] = useContext(Data);
+  function saveData() {
+    
+    setData({ ...data, [email]: { firstName, lastName ,email,phoneNumber,data,password,confirmPassword} })
+    console.log(data);
+    navigation.navigate('SignIn')
+    
+  }
   function showData() {
-    if(password!=confirmPassword){Alert.alert("Password doesn't matches");setPassword('');setConfirmPassword('');}
-    else{switch(""){
-      case firstName:
-      case lastName:
-      case email:
-      case phoneNumber:
-      case dateOfBirth:
-      case password:
-      // case confirmPassword:
-        Alert.alert("Fill all credentials")
-        break;
-      default:
-    Alert.alert(
-      `User Information\n
+    if (password != confirmPassword) { Alert.alert("Password doesn't matches"); setPassword(''); setConfirmPassword(''); }
+    else {
+      switch ("") {
+        case firstName:
+        case lastName:
+        case email:
+        case phoneNumber:
+        case dateOfBirth:
+        case password:
+          // case confirmPassword:
+          Alert.alert("Fill all credentials")
+          break;
+        default:
+          Alert.alert(
+            `User Information\n
       First Name : ${firstName}\n
       LastName : ${lastName}\n
       Email ID : ${email}\n
       Phone Number : ${phoneNumber}\n
       Date of Birth : ${dateOfBirth}\n
       `,
-    );
-  }}}
+          );
+      }
+    }
+  }
 
   return (
-    
-      <ScrollView style={styles.container}>
-        <View>
-          <UserImage />
-        </View>
-        <View style={styles.data}>
-          <SignUpTemplate text={SignUpData.FirstName} changeState={setFirstName} />
-          <SignUpTemplate text={SignUpData.LastName} changeState={setlastName} />
-          <SignUpTemplate text={SignUpData.Email} changeState={setemail} />
-          <SignUpTemplate text={SignUpData.PhoneNumber} changeState={setphoneNumber} />
-          <SignUpTemplate text={SignUpData.DateOfBirth} changeState={setdateOfBirth} />
-          <SignUpTemplate text={SignUpData.Password} changeState={setPassword} />
-          <SignUpTemplate text={SignUpData.ConfirmPassword} changeState={setConfirmPassword} isConfirmPassword={password} />
-        </View>
-        <View>
-          <TouchableOpacity style={styles.button} onPress={showData}>
-            <Text style={styles.submit}>Sign up</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+
+    <ScrollView style={styles.container}>
+      <View>
+        <UserImage />
+      </View>
+      <View style={styles.data}>
+        <SignUpTemplate text={SignUpData.FirstName} changeState={setFirstName} />
+        <SignUpTemplate text={SignUpData.LastName} changeState={setlastName} />
+        <SignUpTemplate text={SignUpData.Email} changeState={setemail} />
+        <SignUpTemplate text={SignUpData.PhoneNumber} changeState={setphoneNumber} />
+        <SignUpTemplate text={SignUpData.DateOfBirth} changeState={setdateOfBirth} />
+        <SignUpTemplate text={SignUpData.Password} changeState={setPassword} />
+        <SignUpTemplate text={SignUpData.ConfirmPassword} changeState={setConfirmPassword} isConfirmPassword={password} />
+      </View>
+      <View>
+        <TouchableOpacity style={styles.button} onPress={saveData}>
+          <Text style={styles.submit}>Sign up</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 let styles = StyleSheet.create({
-  
+
   data: {
     marginLeft: 50,
     marginRight: 50,
@@ -85,15 +96,16 @@ let styles = StyleSheet.create({
     textAlign: 'center',
     margin: 15,
   },
-  button:{
-    backgroundColor:"green",
+  button: {
+    backgroundColor: "green",
     borderWidth: 0,
     borderColor: 'grey',
     borderRadius: 50,
     marginBottom: 10,
-    marginHorizontal:60
+    marginHorizontal: 60
   },
-  container:{
+  container: {
     // marginBottom:10
+    backgroundColor: "#323139"
   }
 });
