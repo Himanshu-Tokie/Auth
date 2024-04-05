@@ -25,9 +25,13 @@ function SignUpPage({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [data, setData] = useContext(Data);
-  function saveData() {
-    
-    setData({ ...data, [email]: { firstName, lastName ,email,phoneNumber,data,password,confirmPassword} })
+  function saveData() {   
+    setData({ ...data, [email]: { [SignUpData.FirstName]:firstName,
+      [SignUpData.LastName]: lastName ,
+      [SignUpData.Email]:email,
+      [SignUpData.PhoneNumber]:phoneNumber,
+      [SignUpData.Password]:password,
+      [SignUpData.ConfirmPassword]:confirmPassword} })
     console.log(data);
     navigation.navigate('SignIn')
     
