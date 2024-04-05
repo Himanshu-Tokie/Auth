@@ -62,7 +62,9 @@ function SignUpTemplate({text, changeState, isConfirmPassword}) {
     number.current = true;
   } else if (text === SignUpData.DateOfBirth) DOB.current = true;
   else if (
-    (text === SignUpData.Password || text === SignUpData.ConfirmPassword) &&
+    (text === SignUpData.Password ||
+      text === SignUpData.ConfirmPassword ||
+      text === SignUpData.UserPassword) &&
     eye
   )
     security.current = true;
@@ -95,11 +97,18 @@ function SignUpTemplate({text, changeState, isConfirmPassword}) {
                   secureTextEntry={security.current}
                   keyboardType={contact.current}
                   autoCapitalize={
-                    security.current ? 'none' : 'words'
+                    text === SignUpData.ConfirmPassword ||
+                    text === SignUpData.Password ||
+                    text === SignUpData.Email ||
+                    text === SignUpData.UserName ||
+                    text === SignUpData.UserPassword
+                      ? 'none'
+                      : 'words'
                   }></TextInput>
               </View>
               {(text === SignUpData.Password ||
-                text === SignUpData.ConfirmPassword) && (
+                text === SignUpData.ConfirmPassword ||
+                text === SignUpData.UserPassword) && (
                 <>
                   <View>
                     <Icon
@@ -128,7 +137,9 @@ function SignUpTemplate({text, changeState, isConfirmPassword}) {
 
         {err &&
           text !== SignUpData.DateOfBirth &&
-          text !== SignUpData.ConfirmPassword && (
+          text !== SignUpData.ConfirmPassword && 
+          text!== SignUpData.UserName &&
+          text !== SignUpData.UserPassword &&(
             <View>
               <Text style={styles.errText}>*Invalid {text}</Text>
             </View>
@@ -137,7 +148,10 @@ function SignUpTemplate({text, changeState, isConfirmPassword}) {
           <Text style={styles.errText}>*Password doesn't match</Text>
         )}
 
-        {emptyText && <Text style={styles.errText}>*Fill {text}</Text>}
+        {emptyText &&
+        text!== SignUpData.UserName &&
+        text !== SignUpData.UserPassword 
+        && <Text style={styles.errText}>*Fill {text}</Text>}
       </View>
     </>
   );

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-export default function UserImage() {
-  const [photo, setPhoto] = useState(null);
+
+export default function UserImage({photo,setPhoto}) {
+  
 
   const handleImagePicker = () => {
     // console.log(ImagePicker,'ImagePicker');

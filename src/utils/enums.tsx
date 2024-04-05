@@ -6,6 +6,12 @@ export const SignUpData={
     DateOfBirth:"Date of Birth",
     Password:"Password",
     ConfirmPassword:"Confirm Password",
+    Uri:"uri",
     UserName:"User Name",
-    UserPassword:"User Password"
+    UserPassword:"User Password",
+    
+    Edit:"edit",
+    ShowData:"Showdata",
+    ChangePassword:"changePassword",
+    LogOut:"LogOut"
 }

@@ -1,32 +1,31 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator,View } from "react-native";
 import { Data } from "../../utils/context";
 
 export default function Process({route,navigation}){
-    const [check,setCheck] = useState(true)
     const {UserName,Password} = route.params;
     const [credentials] = useContext(Data)
     console.log(JSON.stringify(route));
-    setTimeout(()=>{setCheck(false);
+    console.log(credentials,1);
+    useEffect(()=>{
     if(credentials.hasOwnProperty(UserName))
     {
         console.log(credentials[UserName]);
         
         if(credentials[UserName].Password==Password){
-            navigation.push("Home")
+            navigation.push("Home",credentials[UserName])
         }
         else{
-            navigation.navigate("SignIn");}
+            navigation.navigate("SignIn",{result:1});}
     }
     else{
-        navigation.navigate("SignIn");
-    }},5000);
+        navigation.navigate("SignIn",{result:1});
+    }},[])
     return (
         <>
-        {check &&
         <View>
             <ActivityIndicator></ActivityIndicator>
-        </View>}
+        </View>
         </>
     )
 }

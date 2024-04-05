@@ -24,17 +24,39 @@ function SignUpPage({ navigation }) {
   const [dateOfBirth, setdateOfBirth] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [photo, setPhoto] = useState(null);
   const [data, setData] = useContext(Data);
-  function saveData() {   
-    setData({ ...data, [email]: { [SignUpData.FirstName]:firstName,
-      [SignUpData.LastName]: lastName ,
-      [SignUpData.Email]:email,
-      [SignUpData.PhoneNumber]:phoneNumber,
-      [SignUpData.Password]:password,
-      [SignUpData.ConfirmPassword]:confirmPassword} })
-    console.log(data);
-    navigation.navigate('SignIn')
+  function saveData() {
+    let ok = true
+    switch ("") {
+      case firstName:
+      case lastName:
+      case email:
+      case phoneNumber:
+      case dateOfBirth:
+      case password:
+        // case confirmPassword:
+        Alert.alert("Fill all credentials")
+        ok=false
+    }
     
+    if (ok) {
+      setData({
+        ...data, [email]: {
+          [SignUpData.FirstName]: firstName,
+          [SignUpData.LastName]: lastName,
+          [SignUpData.Email]: email,
+          [SignUpData.PhoneNumber]: phoneNumber,
+          [SignUpData.Password]: password,
+          [SignUpData.ConfirmPassword]: confirmPassword,
+          [SignUpData.DateOfBirth]: dateOfBirth,
+          [SignUpData.Uri]: photo
+        }
+      })
+      console.log(data);
+      navigation.navigate('SignIn')
+    }
+
   }
   function showData() {
     if (password != confirmPassword) { Alert.alert("Password doesn't matches"); setPassword(''); setConfirmPassword(''); }
@@ -67,7 +89,7 @@ function SignUpPage({ navigation }) {
 
     <ScrollView style={styles.container}>
       <View>
-        <UserImage />
+        <UserImage photo={photo} setPhoto={setPhoto} />
       </View>
       <View style={styles.data}>
         <SignUpTemplate text={SignUpData.FirstName} changeState={setFirstName} />
