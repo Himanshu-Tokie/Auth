@@ -8,10 +8,13 @@ export const SignUpData={
     ConfirmPassword:"Confirm Password",
     Uri:"uri",
     UserName:"User Name",
-    UserPassword:"User Password",
+    UserPassword:"UserPassword",
     
     Edit:"edit",
     ShowData:"Showdata",
     ChangePassword:"changePassword",
-    LogOut:"LogOut"
+    LogOut:"LogOut",
+
+    NewPassword:"New Password",
+    ConfirmNewPassword:"Confirm New Password"
 }

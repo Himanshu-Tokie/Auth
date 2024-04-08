@@ -1,49 +1,92 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import React, {
+  useContext,
+  useState
+} from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ButtonTemplate from '../../customButtons/button';
-import { SignUpData } from '../../utils/enums';
-import Process from '../Process/process';
 import { Data } from '../../utils/context';
+import { SignUpData } from '../../utils/enums';
 
 export default function UserSignIn({ navigation, route }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [data, setData] = useContext(Data);
-  const result = useRef(0);
-  console.log(data);
-  if (route.params != undefined) {
-    result.current = 1;
+  const isFocused = useIsFocused();
+  // const [data, setData] = useContext(Data);
+  const [result, setResult] = useState(0);
+  const [credentials,setCredentials] = useContext(Data);
+  // console.log((Data));
+  // setCredentials("hirmanshu",{password:"123"});
+  console.log(credentials);
+  
+
+  
+  // useEffect(() => {
+  //   if (!isFocused) {
+  //     setUserName('');
+  //     setPassword('');
+  //   }
+  // }, [isFocused]);
+  
+  function checkData() {
+    if (credentials.hasOwnProperty(userName)) {
+      if (credentials[userName].Password === password) {
+        navigation.push('Home', credentials[userName]);
+      } else {
+        setResult(1);
+      }
+    } else {
+      setResult(1);
+    }
   }
 
-  // useEffect(()=>{
-  //   setUserName('');setPassword('');
-  // },[userName,password])
+  function SignUp() {
+    navigation.navigate('SignUp');
+  }
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     setUserName('');
+  //     setPassword('');
+  //   });
+  //   return unsubscribe;
+  // }, [navigation]);
+  function forgot(){
+    // if(credentials.hasOwnProperty(userName))
+    navigation.navigate('ForgotPassword')
+  }
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.textInput}>
-          <ButtonTemplate text={SignUpData.UserName} changeState={setUserName}></ButtonTemplate>
-          <ButtonTemplate text={SignUpData.UserPassword} changeState={setPassword}></ButtonTemplate>
-        </View>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {  navigation.navigate('Process', { UserName: userName, Password: password }) }}>
-            <Text>Log In</Text>
-          </TouchableOpacity>
-          {
-            result.current ? (
-              <Text style={styles.errText}>Invalid Username or Password</Text>
-            ) : ''
-          }
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {  navigation.navigate('SignUp', { UserName: userName, Password: password }) }}>
-            <Text>SignUp</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.header}>
+          SignIn
+        </Text>
       </View>
-    </>
+      <View style={styles.textInput}>
+        <ButtonTemplate
+          text={SignUpData.UserName}
+          changeState={setUserName}
+        ></ButtonTemplate>
+        <ButtonTemplate
+          text={SignUpData.UserPassword}
+          changeState={setPassword}
+        ></ButtonTemplate>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.button} onPress={checkData}>
+          <Text style={styles.text}>Log In</Text>
+        </TouchableOpacity>
+        {result ? (<>
+          <Text style={styles.errText}>Invalid Username or Password</Text>
+          <Text onPress={forgot} style={styles.text}>Forget Password</Text>
+        </>
+        ) : (
+          ''
+        )}
+        <TouchableOpacity style={styles.button} onPress={SignUp}>
+          <Text style={styles.text}>SignUp</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
@@ -54,13 +97,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
   },
+  header:{
+    fontSize:40,
+    color:"white",
+    fontWeight:"bold",
+    alignItems:"center"
+  },
   textInput: {
-    // borderWidth: 2,
-    // borderColor: 'grey',
     borderRadius: 20,
     padding: 10,
-    marginHorizontal:25
-    // textAlign: 'left',
+    marginHorizontal: 25,
+  },
+  text: {
+    textAlign: 'center',
+    paddingVertical: 10,
+    color:'white',
+    fontWeight:'bold'
   },
   button: {
     backgroundColor: 'green',
@@ -74,13 +126,6 @@ const styles = StyleSheet.create({
     color: 'red',
     fontWeight: '400',
     textAlign: 'center',
-    marginBottom: 5
-    // alignContent:'center',
-    // justifyContent:'center'
+    marginBottom: 5,
   },
 });
-
-// { "Himanshu@gmail.com": { "Password": "Anil@123" }, 
-// "asdf@asdf.asdf": { "Confirm Password": "Anil@123", "Date of Birth": "05-04-2022", "Email ID": "asdf@asdf.asdf", "First Name": "Himanshu", "Last Name": "Asdf", "Password": "Anil@123", "Phone Number": "+917894561230" }, 
-// "qwer@qwer.qwer": { "Confirm Password": "Anil@123", "Date of Birth": "05-04-2021", "Email ID": "qwer@qwer.qwer", "First Name": "Asdf", "Last Name": "Asdf", "Password": "Anil@123", "Phone Number": "+917894561230" } 
-// }

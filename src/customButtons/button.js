@@ -1,11 +1,11 @@
-import React, {useRef, useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
-import Date from './date';
-import Number from './PhoneNumber';
-import {SignUpData} from '../utils/enums';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { SignUpData } from '../utils/enums';
+import Number from './PhoneNumber';
+import Date from './date';
 
-function SignUpTemplate({text, changeState, isConfirmPassword}) {
+function SignUpTemplate({text, changeState, isConfirmPassword,alert}) {
   const DOB = useRef(false);
   const number = useRef(false);
   const security = useRef(false);
@@ -36,7 +36,7 @@ function SignUpTemplate({text, changeState, isConfirmPassword}) {
         break;
     }
     ok = regex.test(input);
-    if (text == SignUpData.ConfirmPassword) {
+    if (text === SignUpData.ConfirmPassword) {
       if (isConfirmPassword === input) {
         setPasswordAlert(false);
       } else setPasswordAlert(true);
@@ -128,18 +128,17 @@ function SignUpTemplate({text, changeState, isConfirmPassword}) {
           )}
         </View>
 
-        {focus && (
+        {(focus && text !== SignUpData.UserPassword)&& (
           <Text style={styles.alertText}>
             Minimum Length required 8 digits including an uppercase, a
             lowercase, special character.
           </Text>
         )}
-
-        {err &&
+        {(err &&
           text !== SignUpData.DateOfBirth &&
           text !== SignUpData.ConfirmPassword && 
           text!== SignUpData.UserName &&
-          text !== SignUpData.UserPassword &&(
+          text !== SignUpData.UserPassword) &&(
             <View>
               <Text style={styles.errText}>*Invalid {text}</Text>
             </View>

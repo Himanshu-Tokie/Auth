@@ -1,18 +1,16 @@
 import React, { useContext, useState } from 'react';
 import {
-  Text,
-  SafeAreaView,
-  View,
-  Image,
   Alert,
-  TouchableOpacity,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import SignUpTemplate from '../../customButtons/button';
 import UserImage from '../../customButtons/image';
-import { SignUpData } from '../../utils/enums';
 import { Data } from '../../utils/context';
+import { SignUpData } from '../../utils/enums';
 export default SignUpPage;
 
 
@@ -26,6 +24,9 @@ function SignUpPage({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [photo, setPhoto] = useState(null);
   const [data, setData] = useContext(Data);
+  const [alert,setAlert] = useState(false);
+  console.log(data);
+  
   function saveData() {
     let ok = true
     switch ("") {
@@ -41,8 +42,7 @@ function SignUpPage({ navigation }) {
     }
     
     if (ok) {
-      setData({
-        ...data, [email]: {
+      setData(email, {
           [SignUpData.FirstName]: firstName,
           [SignUpData.LastName]: lastName,
           [SignUpData.Email]: email,
@@ -52,37 +52,11 @@ function SignUpPage({ navigation }) {
           [SignUpData.DateOfBirth]: dateOfBirth,
           [SignUpData.Uri]: photo
         }
-      })
+      )
       console.log(data);
       navigation.navigate('SignIn')
     }
 
-  }
-  function showData() {
-    if (password != confirmPassword) { Alert.alert("Password doesn't matches"); setPassword(''); setConfirmPassword(''); }
-    else {
-      switch ("") {
-        case firstName:
-        case lastName:
-        case email:
-        case phoneNumber:
-        case dateOfBirth:
-        case password:
-          // case confirmPassword:
-          Alert.alert("Fill all credentials")
-          break;
-        default:
-          Alert.alert(
-            `User Information\n
-      First Name : ${firstName}\n
-      LastName : ${lastName}\n
-      Email ID : ${email}\n
-      Phone Number : ${phoneNumber}\n
-      Date of Birth : ${dateOfBirth}\n
-      `,
-          );
-      }
-    }
   }
 
   return (
@@ -92,13 +66,13 @@ function SignUpPage({ navigation }) {
         <UserImage photo={photo} setPhoto={setPhoto} />
       </View>
       <View style={styles.data}>
-        <SignUpTemplate text={SignUpData.FirstName} changeState={setFirstName} />
-        <SignUpTemplate text={SignUpData.LastName} changeState={setlastName} />
-        <SignUpTemplate text={SignUpData.Email} changeState={setemail} />
-        <SignUpTemplate text={SignUpData.PhoneNumber} changeState={setphoneNumber} />
-        <SignUpTemplate text={SignUpData.DateOfBirth} changeState={setdateOfBirth} />
-        <SignUpTemplate text={SignUpData.Password} changeState={setPassword} />
-        <SignUpTemplate text={SignUpData.ConfirmPassword} changeState={setConfirmPassword} isConfirmPassword={password} />
+        <SignUpTemplate text={SignUpData.FirstName} changeState={setFirstName} alert={alert}/>
+        <SignUpTemplate text={SignUpData.LastName} changeState={setlastName} alert={alert}/>
+        <SignUpTemplate text={SignUpData.Email} changeState={setemail} alert={alert}/>
+        <SignUpTemplate text={SignUpData.PhoneNumber} changeState={setphoneNumber} alert={alert}/>
+        <SignUpTemplate text={SignUpData.DateOfBirth} changeState={setdateOfBirth} alert={alert}/>
+        <SignUpTemplate text={SignUpData.Password} changeState={setPassword} alert={alert}/>
+        <SignUpTemplate text={SignUpData.ConfirmPassword} changeState={setConfirmPassword} isConfirmPassword={password} alert={alert}/>
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={saveData}>

@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SignUpData } from "../utils/enums";
-import ShowData from "../Screen/Home/showData";
 
 export default function TouchableButton({navigation,text,data}){
     function goTo(){
         switch (text){
             case SignUpData.Edit:
             case SignUpData.ShowData:
-                navigation.navigate('showData',data)
+                navigation.navigate('Profile',data)
+                break;
             case SignUpData.ChangePassword:
                 console.log("5 Star - Do nothing");
                 break;
@@ -30,10 +30,11 @@ export default function TouchableButton({navigation,text,data}){
 }
 const styles=StyleSheet.create({
     container:{
-        marginBottom:10
+        marginBottom:20,
+        marginHorizontal:30
     },
     button:{
-        borderBlockColor:"black",
+        borderColor:"white",
         borderWidth:1,
         borderRadius:20
     },

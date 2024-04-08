@@ -1,5 +1,4 @@
 function showMore(str, n) {
-    // const regex = /(?<!\\)\\n/
     const test = /(?<!\\)\n/
     let temp = str.split(test);
     let ok = false;
@@ -14,12 +13,18 @@ function showMore(str, n) {
         else if(temp[i].length<=n){tempStr=tempStr+temp[i]+'\n';line+=1;}
     }  for(let i of temp){
         count+=i.length;
-        if(count>3*n)ok= true;
+        if(count>3n)ok= true;
     }
-    tempStr=tempStr.slice(0,(3*n))
+    tempStr = tempStr.split(test)
+    if(tempStr.length>2){
+        tempStr[2]=tempStr[2].slice(0,n);
+    }
+    tempStr=tempStr.join('\n');
+    // (tempStr[-1]=='n' && tempStr[-2]=='\\')?
+    // tempStr=tempStr.slice(0,(tempStr.length)):
+    tempStr=tempStr.slice(0,(tempStr.length-2));
     console.log(tempStr);
     return {str:tempStr,showMore:ok}
 }
 
-console.log(showMore("asdf\\nasd\nfasdf",3))
-
+console.log(showMore("asd\nf nasd \nfasdf asfklds asfdsfdsjkf aksdlf dklsjfkjfa;dkfjkl a;ldksjfldsfjkdhsfjhdsfdskjfkldsjf dsljf asjfklasdfkjhdsjkfhdsklajfkla dsklfhdsjfkladjsflds",20))

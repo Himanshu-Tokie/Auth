@@ -9,7 +9,7 @@ export default function Home({navigation, route}) {
 
   return (
     <>
-
+        <View style={styles.home}>
         <View style={styles.container}>
           <Image source={{uri: data[SignUpData.Uri]}} style={styles.image} />
           <Text style={styles.text}>{data[SignUpData.FirstName] + ' ' + data[SignUpData.LastName]}</Text>
@@ -34,10 +34,16 @@ export default function Home({navigation, route}) {
       <View>
         <TouchableButton text={SignUpData.LogOut} navigation={navigation} />
       </View>
+        </View>
+        
     </>
   );
 }
 const styles = StyleSheet.create({
+  home:{
+    backgroundColor:"#323139",
+    flex:1
+  },  
   image: {
     height: 100,
     width: 100,

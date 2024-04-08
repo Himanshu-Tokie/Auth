@@ -81,6 +81,7 @@ function Phone({ changeState }) {
             textContainerStyle={styles.container}
             placeholderTextColor="white" // Set placeholder text color to white
             codeTextStyle={{ color: "white" }}
+            textInputStyle={{color:"white"}}
             // textInputProps={{ style: styles.inputText }} // Custom style for text input
           />
           {err &&(
