@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import SignUpTemplate from "../../customButtons/button";
 import { Data } from "../../utils/context";
 import { SignUpData } from "../../utils/enums";
 
@@ -10,24 +11,45 @@ export default function ForgotPassword({navigation}){
     const [newPassword,setPassword]= useState('');
     const [confirmNewPassword,setConfirmPassword]= useState('');
     const [confirmation,setConfirmation] = useState(false);
-    const data = useContext(Data);
+    const [alert,setalert] = useState(false)
+    const [data,setData] = useContext(Data);
+    function check(){
+      console.log(data);
+      if(data.hasOwnProperty(UserName)){setConfirmation(true);setalert(false);}
+      else setalert(true)
+    }
+  async function set(){
+    console.log(newPassword,confirmNewPassword);
+    if(newPassword !=='' && confirmNewPassword!==''){
+      setData(UserName,{...data[UserName],[SignUpData.Password]:newPassword});
+      Alert.alert("Password changed successfully");
+      navigation.navigate('SignIn')
+    }
+  }
     return (
         <>
         <SafeAreaView style={styles.container}>
         <View style={styles.data}>
-            <SignUpData text={SignUpData.UserName} changeState={setUserName}></SignUpData>
-            {/* {confirmation &&
+            <SignUpTemplate text={SignUpData.UserName} changeState={setUserName} alert={alert}></SignUpTemplate>
+            {confirmation &&
             <>
             <SignUpTemplate text={SignUpData.Password} changeState={setPassword} />
         <SignUpTemplate text={SignUpData.ConfirmPassword} changeState={setConfirmPassword} isConfirmPassword={newPassword} />
+        <TouchableOpacity style={styles.button} onPress={set}>
+          <Text style={styles.submit}>Submit</Text>
+        </TouchableOpacity>
             </>
-        } */}
+        }
         </View>
-        <View>
-        <TouchableOpacity style={styles.button} >
+        {
+          !confirmation &&
+          <View>
+        <TouchableOpacity style={styles.button} onPress={check}>
           <Text style={styles.submit}>Change Password</Text>
         </TouchableOpacity>
       </View>
+        }
+        
         </SafeAreaView>
         
         </>

@@ -22,12 +22,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'grey',
     borderRadius: 30,
-    padding: 10,
     backgroundColor:"#323139",
     // borderWidth: 2,
     // borderColor: 'grey',
     // borderRadius: 50,
-    width:275,
+    // width:275,
     padding:0,
   },
   button: {},
@@ -51,8 +50,7 @@ function Phone({ changeState }) {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <View>
+
         <SafeAreaView>
           <PhoneInput
             ref={phoneInput}
@@ -90,7 +88,7 @@ function Phone({ changeState }) {
           </View>
         )}
         </SafeAreaView>
-      </View>
+
     </>
   );
 };

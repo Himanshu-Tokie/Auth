@@ -5,7 +5,7 @@ import { SignUpData } from '../utils/enums';
 import Number from './PhoneNumber';
 import Date from './date';
 
-function SignUpTemplate({text, changeState, isConfirmPassword,alert}) {
+function SignUpTemplate({text, changeState, isConfirmPassword,alert,value}) {
   const DOB = useRef(false);
   const number = useRef(false);
   const security = useRef(false);
@@ -44,13 +44,14 @@ function SignUpTemplate({text, changeState, isConfirmPassword,alert}) {
     if ((ok || input == '') && input.length < 30) {
       if (input == '') setEmptyText(true);
       if (input != '') setEmptyText(false);
-
       changeState(input);
       setErr(false);
     } else {
       setEmptyText(false);
       setErr(true);
     }
+    if(text == SignUpData.UserName || text==SignUpData.UserPassword)
+    changeState(input);
   }
 
   function changeFocus() {
@@ -93,6 +94,7 @@ function SignUpTemplate({text, changeState, isConfirmPassword,alert}) {
                   color="white"
                   onFocus={changeFocus}
                   onBlur={changeFocus}
+                  value={value}
                   placeholderTextColor="grey"
                   secureTextEntry={security.current}
                   keyboardType={contact.current}
@@ -134,11 +136,11 @@ function SignUpTemplate({text, changeState, isConfirmPassword,alert}) {
             lowercase, special character.
           </Text>
         )}
-        {(err &&
+        {((err &&
           text !== SignUpData.DateOfBirth &&
           text !== SignUpData.ConfirmPassword && 
           text!== SignUpData.UserName &&
-          text !== SignUpData.UserPassword) &&(
+          text !== SignUpData.UserPassword) ||alert) &&(
             <View>
               <Text style={styles.errText}>*Invalid {text}</Text>
             </View>
@@ -151,6 +153,7 @@ function SignUpTemplate({text, changeState, isConfirmPassword,alert}) {
         text!== SignUpData.UserName &&
         text !== SignUpData.UserPassword 
         && <Text style={styles.errText}>*Fill {text}</Text>}
+
       </View>
     </>
   );
@@ -176,7 +179,7 @@ let styles = StyleSheet.create({
     textAlign: 'left',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   errText: {
     color: 'red',

@@ -1,6 +1,6 @@
-import { useIsFocused } from '@react-navigation/native';
 import React, {
   useContext,
+  useEffect,
   useState
 } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -11,16 +11,27 @@ import { SignUpData } from '../../utils/enums';
 export default function UserSignIn({ navigation, route }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const isFocused = useIsFocused();
+  const isFocused = true
   // const [data, setData] = useContext(Data);
   const [result, setResult] = useState(0);
   const [credentials,setCredentials] = useContext(Data);
   // console.log((Data));
   // setCredentials("hirmanshu",{password:"123"});
-  console.log(credentials);
+  // console.log(credentials);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      // Alert.alert('')
+      setUserName('');
+      setPassword('');
+    });
+    return unsubscribe;
+  }, [navigation]);
   
 
-  
+  // useFocusEffect(()=>{
+  //   Alert.alert('in')
+  // })
+
   // useEffect(() => {
   //   if (!isFocused) {
   //     setUserName('');
@@ -43,13 +54,8 @@ export default function UserSignIn({ navigation, route }) {
   function SignUp() {
     navigation.navigate('SignUp');
   }
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     setUserName('');
-  //     setPassword('');
-  //   });
-  //   return unsubscribe;
-  // }, [navigation]);
+
+
   function forgot(){
     // if(credentials.hasOwnProperty(userName))
     navigation.navigate('ForgotPassword')
@@ -61,15 +67,22 @@ export default function UserSignIn({ navigation, route }) {
           SignIn
         </Text>
       </View>
+    
       <View style={styles.textInput}>
-        <ButtonTemplate
+      {
+        isFocused && <>
+          <ButtonTemplate
           text={SignUpData.UserName}
           changeState={setUserName}
+          value={userName}
         ></ButtonTemplate>
         <ButtonTemplate
           text={SignUpData.UserPassword}
           changeState={setPassword}
+          value={password}
         ></ButtonTemplate>
+        </>
+      }
       </View>
       <View>
         <TouchableOpacity style={styles.button} onPress={checkData}>
@@ -77,11 +90,11 @@ export default function UserSignIn({ navigation, route }) {
         </TouchableOpacity>
         {result ? (<>
           <Text style={styles.errText}>Invalid Username or Password</Text>
-          <Text onPress={forgot} style={styles.text}>Forget Password</Text>
         </>
         ) : (
           ''
         )}
+        <Text onPress={forgot} style={styles.text}>Forget Password</Text>
         <TouchableOpacity style={styles.button} onPress={SignUp}>
           <Text style={styles.text}>SignUp</Text>
         </TouchableOpacity>

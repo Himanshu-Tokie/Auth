@@ -23,8 +23,8 @@ function SignUpPage({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [photo, setPhoto] = useState(null);
-  const [data, setData] = useContext(Data);
   const [alert,setAlert] = useState(false);
+  const [data, setData] = useContext(Data);
   console.log(data);
   
   function saveData() {
@@ -36,12 +36,13 @@ function SignUpPage({ navigation }) {
       case phoneNumber:
       case dateOfBirth:
       case password:
-        // case confirmPassword:
+        case confirmPassword:
         Alert.alert("Fill all credentials")
         ok=false
     }
     
     if (ok) {
+      
       setData(email, {
           [SignUpData.FirstName]: firstName,
           [SignUpData.LastName]: lastName,
